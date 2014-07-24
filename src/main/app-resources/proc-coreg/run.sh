@@ -37,8 +37,21 @@ do
   ciop-log "DEBUG" "list: $list"
   local_list=`echo $list | ciop-copy -o $TMPDIR -`
 
-  
+  /application/shared/bin/gpt.sh CreateStack  \
+    -Pextent=Master \
+    -PmasterBands=i::subset_of_ERS-1_SAR_SLC-ORBIT_21159_DATE__1-AUG-1995_21_16_39,q::subset_of_ERS-1_SAR_SLC-ORBIT_21159_DATE__1-AUG-1995_21_16_39 \
+    -PresamplingType=NONE \
+    -PsourceBands=i::subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42,q::subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42 /Users/fbrito/Downloads/Etna_ERS/subset_of_ERS-1_SAR_SLC-ORBIT_21159_DATE__1-AUG-1995_21_16_39.dim /Users/fbrito/Downloads/Etna_ERS/subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42.dim \
+    -t $TMPDIR/createstack.dim
 
+  /application/shared/bin/gpt.sh GCP-Selection \
+    -t $TMPDIR/gcpselection.dim
+  
+  /application/shared/bin/gpt.sh Warp \
+    -t $TMPDIR/warp.dim        
+  
+  
+   
 done
 
 
