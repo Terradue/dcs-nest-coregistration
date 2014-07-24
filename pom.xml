@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.terradue.ciop.app</groupId>
-	<artifactId>beam-java-app</artifactId>
+	<artifactId>nest-java-app</artifactId>
 	<packaging>rpm</packaging>
-	<description>BEAM Java FLH Processing</description>
+	<description>NEST Java Processing</description>
 	<version>0.1</version>
 
 	<scm>
@@ -16,45 +16,104 @@
 		<tag>HEAD</tag>
 	</scm>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.esa.beam</groupId>
-			<artifactId>beam-gpf</artifactId>
-			<version>5.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.esa.beam</groupId>
-			<artifactId>beam-envisat-reader</artifactId>
-			<version>5.0</version>
-		</dependency>
-		<dependency>
-                        <groupId>org.esa.beam</groupId>
-                        <artifactId>beam-geotiff</artifactId>
-                        <version>5.0</version>
-		</dependency>
-		<dependency>
-                        <groupId>org.esa.beam</groupId>
-                        <artifactId>beam-binning</artifactId>
-                        <version>5.0</version>
-                </dependency>	
-		<dependency>
-                        <groupId>org.esa.beam</groupId>
-                        <artifactId>beam-pconvert</artifactId>
-                        <version>5.0</version>
-                </dependency>	
-		<dependency>
-			<groupId>ncsa.hdf</groupId>
-			<artifactId>lib-hdf</artifactId>
-			<version>2.7</version>
-		</dependency>
-	</dependencies>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.deploy.skip>true</maven.deploy.skip>
+		<beam.version>5.0</beam.version>
+		<nest.version>5.1</nest.version>
 	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.esa.beam</groupId>
+			<artifactId>beam-gpf</artifactId>
+			<version>5.0.1-4.10.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.beam</groupId>
+			<artifactId>beam-envisat-reader</artifactId>
+			<version>${beam.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.beam</groupId>
+			<artifactId>beam-geotiff</artifactId>
+			<version>${beam.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.beam</groupId>
+			<artifactId>beam-binning</artifactId>
+			<version>${beam.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.beam</groupId>
+			<artifactId>beam-pconvert</artifactId>
+			<version>${beam.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.beam</groupId>
+			<artifactId>beam-nest-common</artifactId>
+			<version>${beam.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ncsa.hdf</groupId>
+			<artifactId>lib-hdf</artifactId>
+			<version>2.7</version>
+		</dependency>
+		<!-- NEST Modules ############################################# -->
+
+		<dependency>
+			<groupId>org.esa.nest</groupId>
+			<artifactId>nest-core</artifactId>
+			<version>${nest.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.nest</groupId>
+			<artifactId>nest-dat</artifactId>
+			<version>${nest.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.nest</groupId>
+			<artifactId>nest-graph-builder</artifactId>
+			<version>${nest.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.nest</groupId>
+			<artifactId>nest-op-calibration</artifactId>
+			<version>${nest.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.nest</groupId>
+			<artifactId>nest-op-coregistration</artifactId>
+			<version>${nest.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.nest</groupId>
+			<artifactId>nest-op-sar-tools</artifactId>
+			<version>${nest.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.nest</groupId>
+			<artifactId>nest-op-sentinel1</artifactId>
+			<version>${nest.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.nest</groupId>
+			<artifactId>nest-ocean-tools</artifactId>
+			<version>${nest.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.nest</groupId>
+			<artifactId>nest-io</artifactId>
+			<version>${nest.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.esa.nest</groupId>
+			<artifactId>nest-reader-dem</artifactId>
+			<version>${nest.version}</version>
+		</dependency>
+	</dependencies>
 
 	<repositories>
 		<repository>
@@ -68,6 +127,28 @@
 			<snapshots>
 				<enabled>true</enabled>
 				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>array-mvn-repo</id>
+			<name>Public Maven Repository at Array Systems Computing Inc</name>
+			<url>http://www.array.ca/nest-web/maven</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>ppolabs-mvn-repo</id>
+			<name>Public Maven Repository of PPO.labs</name>
+			<url>http://maven.ppolabs.me/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
 			</snapshots>
 		</repository>
 		<repository>
