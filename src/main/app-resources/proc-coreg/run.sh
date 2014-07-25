@@ -47,8 +47,10 @@ rowInterpFactor="`ciop-getparam rowInterpFactor`"
 useSlidingWindow="`ciop-getparam useSlidingWindow`"           
                                            
 # Warp
-
-
+interpolationMethod="`ciop-getparam interpolationMethod`"
+openResidualsFile="`ciop-getparam openResidualsFile`"
+rmsThreshold="`ciop-getparam rmsThreshold`"
+warpPolynomialOrder="`ciop-getparam warpPolynomialOrder`"
 
 while read list
 do
@@ -87,10 +89,12 @@ do
     
   
   /application/shared/bin/gpt.sh Warp \
+    -PinterpolationMethod=$interpolationMethod \
+    -PopenResidualsFile=$openResidualsFile \
+    -PrmsThreshold=$rmsThreshold \
+    -PwarpPolynomialOrder=$warpPolynomialOrder \
     -t $TMPDIR/warp.dim        
   
-  
-   
 done
 
 
