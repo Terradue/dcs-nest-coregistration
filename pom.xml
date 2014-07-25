@@ -374,7 +374,7 @@
 					<provides>
 						<provide>${project.artifactId}</provide>
 					</provides>
-					<needarch>noarch</needarch>
+					<needarch>true</needarch>
 				</configuration>
 			</plugin>
 
