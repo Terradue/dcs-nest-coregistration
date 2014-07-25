@@ -4,6 +4,7 @@
     <jobTemplate id="proc-coreg">
       <streamingExecutable>/application/proc-coreg/run.sh</streamingExecutable>
       <defaultParameters>
+        <parameter id="master" title="master" abstract="master"></parameter>
         <!-- CreateStack -->
         <parameter id="resamplingType" title="resamplingType" abstract="resamplingType" scope="runtime" type="LiteralData">NONE</parameter>
         <parameter id="extent" title="extent" abstract="extent" scope="runtime" type="LiteralData">Master</parameter>
@@ -39,7 +40,7 @@
     <node id="node_proc-coreg">
     <job id="proc-coreg" />
     <sources>
-      <source id="Level0_ref" title="SAR product catalogue entry(ies) in RDF format" abstract="Define the list of one or more SAR products to generate a DEM for each input product. The products are passed by references to catalogue entries in RDF format" refid="string:list" scope="runtime">http://eo-virtual-archive4.esa.int/search/ASA_IM__0P/ASA_IM__0CNPAM20100818_204734_000000172092_00129_44271_5241.N1/rdf</source>
+      <source id="slaves" title="Slave product catalogue entry(ies) in RDF format" abstract="Define the list of one or more slave products to generate the coregistered stack" refid="string:list" scope="runtime">http://eo-virtual-archive4.esa.int/search/ASA_IM__0P/ASA_IM__0CNPAM20100818_204734_000000172092_00129_44271_5241.N1/rdf</source>
     </sources>
     <parameters>
     </parameters>
