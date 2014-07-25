@@ -52,51 +52,73 @@ openResidualsFile="`ciop-getparam openResidualsFile`"
 rmsThreshold="`ciop-getparam rmsThreshold`"
 warpPolynomialOrder="`ciop-getparam warpPolynomialOrder`"
 
-while read list
+# get the master
+
+# create a folder for the input products: master and slave(s)
+mkdir -p $TMPDIR/input
+master="`ciop-getparam master`"
+local_master=`echo $master | ciop-copy -o $TMPDIR/input -`
+base_master=`basename $local_master`
+  
+masterBands="`echo {Amplitude::ENVISAT-,Intensity::ENVISAT-}$base_master`"
+  
+# loop through the slave(s) 
+slave_list=""
+$sourceBands=""
+while read slave
 do
-  # create a folder for the input products (results of node_expression) 
-  mkdir -p $TMPDIR/input
 
-  # copy the list
-  ciop-log "DEBUG" "list: $list"
-  local_list=`echo $list | ciop-copy -o $TMPDIR -`
+  local_slave=`echo $slave | ciop-copy -o $TMPDIR/input -`
+  base_slave=`basename $local_slave`
+  
+  slave_list="$slave_list $local_slave"
 
-  /application/shared/bin/gpt.sh CreateStack  \
-    -Pextent=$extent \
-    -PresamplingType=$resamplingType \
-    -PmasterBands=i::subset_of_ERS-1_SAR_SLC-ORBIT_21159_DATE__1-AUG-1995_21_16_39,q::subset_of_ERS-1_SAR_SLC-ORBIT_21159_DATE__1-AUG-1995_21_16_39 \
-    -PsourceBands=i::subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42,q::subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42 \
-    -t $TMPDIR/createstack.dim \
-    $local_list
-  
-  /application/shared/bin/gpt.sh GCP-Selection \
-    -PapplyFineRegistration=$applyFineRegistration \
-    -PcoarseRegistrationWindowHeight=$coarseRegistrationWindowHeight \
-    -PcoarseRegistrationWindowWidth=$coarseRegistrationWindowWidth \
-    -PcoherenceThreshold=$coherenceThreshold \
-    -PcoherenceWindowSize=$coherenceWindowSize \
-    -PcolumnInterpFactor=$columnInterpFactor \
-    -PcomputeOffset=$computeOffset \
-    -PfineRegistrationWindowHeight=$fineRegistrationWindowHeight \
-    -PfineRegistrationWindowWidth=$fineRegistrationWindowWidth \
-    -PgcpTolerance=$gcpTolerance \
-    -PmaxIteration=$maxIteration \
-    -PnumGCPtoGenerate=$numGCPtoGenerate \
-    -PonlyGCPsOnLand=$onlyGCPsOnLand \
-    -ProwInterpFactor=$rowInterpFactor \
-    -PuseSlidingWindow=$useSlidingWindow \
-    -t $TMPDIR/gcpselection.dim \
-    $TMPDIR/createstack.dim
-    
-  
-  /application/shared/bin/gpt.sh Warp \
-    -PinterpolationMethod=$interpolationMethod \
-    -PopenResidualsFile=$openResidualsFile \
-    -PrmsThreshold=$rmsThreshold \
-    -PwarpPolynomialOrder=$warpPolynomialOrder \
-    -t $TMPDIR/warp.dim        
-  
+  if [ "$sourceBands" == "" ]; then 
+    sourceBands="`echo {Amplitude::ENVISAT-,Intensity::ENVISAT-}$base_slave | tr ' ' ','`" 
+  else
+    sourceBands="$sourceBands,`echo {Amplitude::ENVISAT-,Intensity::ENVISAT-}$base_slave | tr ' ' ','`"
+  fi
+
 done
+
+/application/shared/bin/gpt.sh CreateStack  \
+  -Pextent=$extent \
+  -PresamplingType=$resamplingType \
+  -PmasterBands=$masterBands \
+  -PsourceBands=$sourceBands \
+  -t $TMPDIR/createstack.dim \
+  $local_master $slave_list
+
+/application/shared/bin/gpt.sh GCP-Selection \
+  -PapplyFineRegistration=$applyFineRegistration \
+  -PcoarseRegistrationWindowHeight=$coarseRegistrationWindowHeight \
+  -PcoarseRegistrationWindowWidth=$coarseRegistrationWindowWidth \
+  -PcoherenceThreshold=$coherenceThreshold \
+  -PcoherenceWindowSize=$coherenceWindowSize \
+  -PcolumnInterpFactor=$columnInterpFactor \
+  -PcomputeOffset=$computeOffset \
+  -PfineRegistrationWindowHeight=$fineRegistrationWindowHeight \
+  -PfineRegistrationWindowWidth=$fineRegistrationWindowWidth \
+  -PgcpTolerance=$gcpTolerance \
+  -PmaxIteration=$maxIteration \
+  -PnumGCPtoGenerate=$numGCPtoGenerate \
+  -PonlyGCPsOnLand=$onlyGCPsOnLand \
+  -ProwInterpFactor=$rowInterpFactor \
+  -PuseSlidingWindow=$useSlidingWindow \
+  -t $TMPDIR/gcpselection.dim \
+  $TMPDIR/createstack.dim
+  
+
+/application/shared/bin/gpt.sh Warp \
+  -PinterpolationMethod=$interpolationMethod \
+  -PopenResidualsFile=$openResidualsFile \
+  -PrmsThreshold=$rmsThreshold \
+  -PwarpPolynomialOrder=$warpPolynomialOrder \
+  -t $TMPDIR/coreg.dim        
+
+tar -C $TMPDIR -f $TMPDIR/coreg.tgz -cz $TMPDIR/coreg.d*
+
+ciop-publish -m $TMPDIR/coreg.tgz
 
 
 
