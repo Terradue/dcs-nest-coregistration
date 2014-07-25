@@ -65,9 +65,10 @@ do
     -Pextent=$extent \
     -PresamplingType=$resamplingType \
     -PmasterBands=i::subset_of_ERS-1_SAR_SLC-ORBIT_21159_DATE__1-AUG-1995_21_16_39,q::subset_of_ERS-1_SAR_SLC-ORBIT_21159_DATE__1-AUG-1995_21_16_39 \
-    -PsourceBands=i::subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42,q::subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42 /Users/fbrito/Downloads/Etna_ERS/subset_of_ERS-1_SAR_SLC-ORBIT_21159_DATE__1-AUG-1995_21_16_39.dim /Users/fbrito/Downloads/Etna_ERS/subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42.dim \
-    -t $TMPDIR/createstack.dim
-
+    -PsourceBands=i::subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42,q::subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42 \
+    -t $TMPDIR/createstack.dim \
+    $local_list
+  
   /application/shared/bin/gpt.sh GCP-Selection \
     -PapplyFineRegistration=$applyFineRegistration \
     -PcoarseRegistrationWindowHeight=$coarseRegistrationWindowHeight \
