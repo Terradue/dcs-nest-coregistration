@@ -25,8 +25,30 @@ function cleanExit ()
 
 trap cleanExit EXIT
 
+# CreateStack parameters
+resamplingType="`ciop-getparam resamplingType`"
+extent="`ciop-getparam extent`"
 
-bandname="`ciop-getparam bandname`"
+# GCP-Selection
+applyFineRegistration="`ciop-getparam applyFineRegistration`"        
+coarseRegistrationWindowHeight="`ciop-getparam coarseRegistrationWindowHeight`"
+coarseRegistrationWindowWidth="`ciop-getparam coarseRegistrationWindowWidth`"
+coherenceThreshold="`ciop-getparam coherenceThreshold`"         
+coherenceWindowSize="`ciop-getparam coherenceWindowSize`"            
+columnInterpFactor="`ciop-getparam columnInterpFactor`"            
+computeOffset="`ciop-getparam computeOffset`"               
+fineRegistrationWindowHeight="`ciop-getparam fineRegistrationWindowHeight`"  
+fineRegistrationWindowWidth="`ciop-getparam fineRegistrationWindowWidth`"   
+gcpTolerance="`ciop-getparam gcpTolerance`"                  
+maxIteration="`ciop-getparam maxIteration`"                    
+numGCPtoGenerate="`ciop-getparam numGCPtoGenerate`"               
+onlyGCPsOnLand="`ciop-getparam onlyGCPsOnLand`"                
+rowInterpFactor="`ciop-getparam rowInterpFactor`"              
+useSlidingWindow="`ciop-getparam useSlidingWindow`"           
+                                           
+# Warp
+
+
 
 while read list
 do
@@ -38,14 +60,31 @@ do
   local_list=`echo $list | ciop-copy -o $TMPDIR -`
 
   /application/shared/bin/gpt.sh CreateStack  \
-    -Pextent=Master \
+    -Pextent=$extent \
+    -PresamplingType=$resamplingType \
     -PmasterBands=i::subset_of_ERS-1_SAR_SLC-ORBIT_21159_DATE__1-AUG-1995_21_16_39,q::subset_of_ERS-1_SAR_SLC-ORBIT_21159_DATE__1-AUG-1995_21_16_39 \
-    -PresamplingType=NONE \
     -PsourceBands=i::subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42,q::subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42 /Users/fbrito/Downloads/Etna_ERS/subset_of_ERS-1_SAR_SLC-ORBIT_21159_DATE__1-AUG-1995_21_16_39.dim /Users/fbrito/Downloads/Etna_ERS/subset_of_ERS-2_SAR_SLC-ORBIT_1486_DATE__2-AUG-1995_21_16_42.dim \
     -t $TMPDIR/createstack.dim
 
   /application/shared/bin/gpt.sh GCP-Selection \
-    -t $TMPDIR/gcpselection.dim
+    -PapplyFineRegistration=$applyFineRegistration \
+    -PcoarseRegistrationWindowHeight=$coarseRegistrationWindowHeight \
+    -PcoarseRegistrationWindowWidth=$coarseRegistrationWindowWidth \
+    -PcoherenceThreshold=$coherenceThreshold \
+    -PcoherenceWindowSize=$coherenceWindowSize \
+    -PcolumnInterpFactor=$columnInterpFactor \
+    -PcomputeOffset=$computeOffset \
+    -PfineRegistrationWindowHeight=$fineRegistrationWindowHeight \
+    -PfineRegistrationWindowWidth=$fineRegistrationWindowWidth \
+    -PgcpTolerance=$gcpTolerance \
+    -PmaxIteration=$maxIteration \
+    -PnumGCPtoGenerate=$numGCPtoGenerate \
+    -PonlyGCPsOnLand=$onlyGCPsOnLand \
+    -ProwInterpFactor=$rowInterpFactor \
+    -PuseSlidingWindow=$useSlidingWindow \
+    -t $TMPDIR/gcpselection.dim \
+    $TMPDIR/createstack.dim
+    
   
   /application/shared/bin/gpt.sh Warp \
     -t $TMPDIR/warp.dim        
