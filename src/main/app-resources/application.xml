@@ -8,26 +8,26 @@
         <parameter id="resamplingType" title="resamplingType" abstract="resamplingType" scope="runtime" type="LiteralData">NONE</parameter>
         <parameter id="extent" title="extent" abstract="extent" scope="runtime" type="LiteralData">Master</parameter>
         <!-- GCP-Selection -->
-        <parameter id="applyFineRegistration"></parameter>
-        <parameter id="coarseRegistrationWindowHeight"></parameter>
-        <parameter id="coarseRegistrationWindowWidth"></parameter>
-        <parameter id="coherenceThreshold"></parameter>
-        <parameter id="coherenceWindowSize"></parameter>
-        <parameter id="columnInterpFactor"></parameter>
-        <parameter id="computeOffset"></parameter>
-        <parameter id="fineRegistrationWindowHeight"></parameter>
-        <parameter id="fineRegistrationWindowWidth"></parameter>
-        <parameter id="gcpTolerance"></parameter>
-        <parameter id="maxIteration"></parameter>
-        <parameter id="numGCPtoGenerate"></parameter>
-        <parameter id="onlyGCPsOnLand"></parameter>
-        <parameter id="rowInterpFactor"></parameter>
-        <parameter id="useSlidingWindow"></parameter>
+        <parameter id="applyFineRegistration">true</parameter>
+        <parameter id="coarseRegistrationWindowHeight">128</parameter>
+        <parameter id="coarseRegistrationWindowWidth">128</parameter>
+        <parameter id="coherenceThreshold">0.6</parameter>
+        <parameter id="coherenceWindowSize">3</parameter>
+        <parameter id="columnInterpFactor">2</parameter>
+        <parameter id="computeOffset">false</parameter>
+        <parameter id="fineRegistrationWindowHeight">32</parameter>
+        <parameter id="fineRegistrationWindowWidth">32</parameter>
+        <parameter id="gcpTolerance">0.5</parameter>
+        <parameter id="maxIteration">2</parameter>
+        <parameter id="numGCPtoGenerate">200</parameter>
+        <parameter id="onlyGCPsOnLand">false</parameter>
+        <parameter id="rowInterpFactor">2</parameter>
+        <parameter id="useSlidingWindow">false</parameter>
         <!-- Warp -->
-        <parameter id="interpolationMethod"></parameter>
-        <parameter id="openResidualsFile"></parameter>
-        <parameter id="rmsThreshold"></parameter>
-        <parameter id="warpPolynomialOrder"></parameter>
+        <parameter id="interpolationMethod">Bilinear interpolation</parameter>
+        <parameter id="openResidualsFile">false</parameter>
+        <parameter id="rmsThreshold">1.0</parameter>
+        <parameter id="warpPolynomialOrder">2</parameter>
       </defaultParameters>
       <defaultJobconf>
         <property id="mapred.task.timeout">9900000000</property>
