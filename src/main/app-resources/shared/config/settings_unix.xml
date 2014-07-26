@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Settings>	
-	<AuxDataPath value="${TMPDIR}/AuxData"/>
+	<AuxDataPath value="${TMPDIR}/aux"/>
 	<demPath value="${AuxDataPath}/DEMs"/>
 	
 	<AuxData>

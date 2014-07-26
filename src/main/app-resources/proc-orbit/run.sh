@@ -34,11 +34,14 @@ do
 
   local_input=`echo $input | ciop-copy -o $TMPDIR -`
   base_input=`basename $local_input | sed "s/.N1//"`
-  
-  /application/shared/bin/gpt.sh Apply-Orbit-File \
-    -PorbitType=$orbitType \
+
+  ciop-log "DEBUG" "local: $local_input"
+  ciop-log "DEBUG" "base: $base_input"
+  ciop-log "DEBUG" "-PorbitType=$orbitType"  
+  /application/shared/bin/gpt.sh -e Apply-Orbit-File \
+    -PorbitType="$orbitType" \
     -t $TMPDIR/output/${base_input}.dim \
-    $local_input
+    -Ssource=$local_input
   
   [ $? != 0 ] && exit $ERR_GPT 
     
