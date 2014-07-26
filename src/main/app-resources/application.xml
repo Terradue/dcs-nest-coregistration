@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="proc-coreg">
   <jobTemplates>
+     <jobTemplate id="proc-orbit">
+      <streamingExecutable>/application/proc-orbit/run.sh</streamingExecutable>
+      <defaultParameters>
+        <parameter id="orbitType">DELFT Precise (ENVISAT, ERS1&2)</parameter>
+      </defaultParameters>
+      <defaultJobconf>
+        <property id="mapred.task.timeout">9900000000</property>
+      </defaultJobconf>
+    </jobTemplate>
     <jobTemplate id="proc-coreg">
       <streamingExecutable>/application/proc-coreg/run.sh</streamingExecutable>
       <defaultParameters>
@@ -37,13 +46,21 @@
   </jobTemplates>
   <workflow id="proc-coreg" title="SRTM Digital Elevation Model" abstract="This application generates the STRM DEM in ROI_PAC or GAMMA ready format">
     <workflowVersion>1.0</workflowVersion>
-    <node id="node_proc-coreg">
-    <job id="proc-coreg" />
-    <sources>
-      <source id="slaves" title="Slave product catalogue entry(ies) in RDF format" abstract="Define the list of one or more slave products to generate the coregistered stack" refid="string:list" scope="runtime">http://eo-virtual-archive4.esa.int/search/ASA_IM__0P/ASA_IM__0CNPAM20100818_204734_000000172092_00129_44271_5241.N1/rdf</source>
-    </sources>
-    <parameters>
-    </parameters>
-    </node>
+      <node id="node_proc-orbit">
+        <job id="proc-orbit" />
+        <sources>
+          <source id="slaves" title="Slave product catalogue entry(ies) in RDF format" abstract="Define the list of one or more slave products to generate the coregistered stack" refid="string:list" scope="runtime">http://eo-virtual-archive4.esa.int/search/ASA_IM__0P/ASA_IM__0CNPAM20100818_204734_000000172092_00129_44271_5241.N1/rdf</source>
+        </sources>
+        <parameters>
+        </parameters>
+      </node>
+      <node id="node_proc-coreg">
+      <job id="proc-coreg" />
+      <sources>
+        <source id="slaves" title="Slave product catalogue entry(ies) in RDF format" abstract="Define the list of one or more slave products to generate the coregistered stack" refid="string:list" scope="runtime">http://eo-virtual-archive4.esa.int/search/ASA_IM__0P/ASA_IM__0CNPAM20100818_204734_000000172092_00129_44271_5241.N1/rdf</source>
+      </sources>
+      <parameters>
+      </parameters>
+      </node>
   </workflow>
 </application>
