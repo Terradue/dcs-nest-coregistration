@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 # source the ciop functions (e.g. ciop-log)
 source ${ciop_job_include}
@@ -26,16 +26,18 @@ trap cleanExit EXIT
 # Apply-Orbit-File parameters
 orbitType="`ciop-getparam orbitType`"
 
+mkdir -p $TMPDIR/output
+
 # loop through the inputs
 while read input
 do
 
-  local_input=`echo $input | ciop-copy -o $TMPDIR/input -`
+  local_input=`echo $input | ciop-copy -o $TMPDIR -`
   base_input=`basename $local_input | sed "s/.N1//"`
   
   /application/shared/bin/gpt.sh Apply-Orbit-File \
     -PorbitType=$orbitType \
-    -t $TMPDIR/output ${base_input}.dim \
+    -t $TMPDIR/output/${base_input}.dim \
     $local_input
   
   [ $? != 0 ] && exit $ERR_GPT 
@@ -44,4 +46,5 @@ do
   
   ciop-publish $TMPDIR/output/${base_input}.tgz
   
+  rm -f $local_input
 done

@@ -4,7 +4,7 @@
      <jobTemplate id="proc-orbit">
       <streamingExecutable>/application/proc-orbit/run.sh</streamingExecutable>
       <defaultParameters>
-        <parameter id="orbitType">DELFT Precise (ENVISAT, ERS1&2)</parameter>
+        <parameter id="orbitType"><![CDATA[DELFT Precise (ENVISAT, ERS1&2)]]></parameter>
       </defaultParameters>
       <defaultJobconf>
         <property id="mapred.task.timeout">9900000000</property>
@@ -49,7 +49,7 @@
       <node id="node_proc-orbit">
         <job id="proc-orbit" />
         <sources>
-          <source id="slaves" title="Slave product catalogue entry(ies) in RDF format" abstract="Define the list of one or more slave products to generate the coregistered stack" refid="string:list" scope="runtime">http://eo-virtual-archive4.esa.int/search/ASA_IM__0P/ASA_IM__0CNPAM20100818_204734_000000172092_00129_44271_5241.N1/rdf</source>
+          <source id="slaves" title="Slave product catalogue entry(ies) in RDF format" abstract="Define the list of one or more slave products to generate the coregistered stack" refid="string:list" scope="runtime">http://10.16.10.38/catalogue/sandbox/ASA_IMM_1P/ASA_IMM_1PNIPA20090720_091236_000001392080_00494_38624_3307.N1/rdf</source>
         </sources>
         <parameters>
         </parameters>
