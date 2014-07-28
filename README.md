@@ -1,6 +1,8 @@
 ## Developer Cloud Service NEST Coregistration
 
-TODO: add intro
+The Next ESA SAR Toolbox (NEST) is a free and open source toolbox suite for reading, processing, analysis and visualization of SAR data. The toolbox is developed by the European Space Agency (ESA) under the GNU GPL license. 
+
+This application performs the coregistration of a SAR stack.
 
 ### Getting Started 
 
