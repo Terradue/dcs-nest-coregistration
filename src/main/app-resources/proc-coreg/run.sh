@@ -83,37 +83,37 @@ done
 
 /application/shared/bin/gpt.sh CreateStack  \
   -Pextent="$extent" \
-  -PresamplingType=$resamplingType \
-  -PmasterBands=$masterBands \
-  -PsourceBands=$sourceBands \
+  -PresamplingType="$resamplingType" \
+  -PmasterBands="$masterBands" \
+  -PsourceBands="$sourceBands" \
   -t $TMPDIR/createstack.dim \
   $local_master $slave_list
 
 /application/shared/bin/gpt.sh GCP-Selection \
-  -PapplyFineRegistration=$applyFineRegistration \
-  -PcoarseRegistrationWindowHeight=$coarseRegistrationWindowHeight \
-  -PcoarseRegistrationWindowWidth=$coarseRegistrationWindowWidth \
-  -PcoherenceThreshold=$coherenceThreshold \
-  -PcoherenceWindowSize=$coherenceWindowSize \
-  -PcolumnInterpFactor=$columnInterpFactor \
-  -PcomputeOffset=$computeOffset \
-  -PfineRegistrationWindowHeight=$fineRegistrationWindowHeight \
-  -PfineRegistrationWindowWidth=$fineRegistrationWindowWidth \
-  -PgcpTolerance=$gcpTolerance \
-  -PmaxIteration=$maxIteration \
-  -PnumGCPtoGenerate=$numGCPtoGenerate \
-  -PonlyGCPsOnLand=$onlyGCPsOnLand \
-  -ProwInterpFactor=$rowInterpFactor \
-  -PuseSlidingWindow=$useSlidingWindow \
+  -PapplyFineRegistration="$applyFineRegistration" \
+  -PcoarseRegistrationWindowHeight="$coarseRegistrationWindowHeight" \
+  -PcoarseRegistrationWindowWidth="$coarseRegistrationWindowWidth" \
+  -PcoherenceThreshold="$coherenceThreshold" \
+  -PcoherenceWindowSize="$coherenceWindowSize" \
+  -PcolumnInterpFactor="$columnInterpFactor" \
+  -PcomputeOffset="$computeOffset" \
+  -PfineRegistrationWindowHeight="$fineRegistrationWindowHeight" \
+  -PfineRegistrationWindowWidth="$fineRegistrationWindowWidth" \
+  -PgcpTolerance="$gcpTolerance" \
+  -PmaxIteration="$maxIteration" \
+  -PnumGCPtoGenerate="$numGCPtoGenerate" \
+  -PonlyGCPsOnLand="$onlyGCPsOnLand" \
+  -ProwInterpFactor="$rowInterpFactor" \
+  -PuseSlidingWindow="$useSlidingWindow" \
   -t $TMPDIR/gcpselection.dim \
   $TMPDIR/createstack.dim
   
 
 /application/shared/bin/gpt.sh Warp \
-  -PinterpolationMethod=$interpolationMethod \
-  -PopenResidualsFile=$openResidualsFile \
-  -PrmsThreshold=$rmsThreshold \
-  -PwarpPolynomialOrder=$warpPolynomialOrder \
+  -PinterpolationMethod="$interpolationMethod" \
+  -PopenResidualsFile="$openResidualsFile" \
+  -PrmsThreshold="$rmsThreshold" \
+  -PwarpPolynomialOrder="$warpPolynomialOrder" \
   -t $TMPDIR/coreg.dim        
 
 tar -C $TMPDIR -f $TMPDIR/coreg.tgz -cz $TMPDIR/coreg.d*
