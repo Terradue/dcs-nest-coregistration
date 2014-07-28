@@ -45,8 +45,6 @@ do
   
   [ $? != 0 ] && exit $ERR_GPT 
  
-  ciop-log "DEBUG" "`tree $TMPDIR`"
-   
   tar -C $TMPDIR/output -czf $TMPDIR/output/${base_input}.tgz ${base_input}.dim ${base_input}.data
   
   ciop-publish $TMPDIR/output/${base_input}.tgz
