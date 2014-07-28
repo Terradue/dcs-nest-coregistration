@@ -5,8 +5,9 @@ source ${ciop_job_include}
 
 # define the exit codes
 SUCCESS=0
-ERR_BINNING=20
-ERR_PCONVERT=30
+ERR_CREATESTACK=10
+ERR_GCPSELECTION=20
+ERR_WARP=30
 
 # add a trap to exit gracefully
 function cleanExit ()
@@ -15,8 +16,9 @@ function cleanExit ()
    local msg=""
    case "$retval" in
      $SUCCESS) msg="Processing successfully concluded";;
-     $ERR_BINNING) msg="gpt returned an error";;
-     $ERR_PCONVERT) msg="pconvert returned an error";;
+     $ERR_CREATESTACK) msg="gpt returned an error in CreateStack operator";;
+     $ERR_GCPSELECTION) msg="gpt returned an error in GCP-Selection operator";;
+     $ERR_WARP) msg="gpt returned an error in Warp operator";;
      *) msg="Unknown error";;
    esac
    [ "$retval" != "0" ] && ciop-log "ERROR" "Error $retval - $msg, processing aborted" || ciop-log "INFO" "$msg"
@@ -56,30 +58,36 @@ warpPolynomialOrder="`ciop-getparam warpPolynomialOrder`"
 
 # create a folder for the input products: master and slave(s)
 mkdir -p $TMPDIR/input
-master="`ciop-getparam master`"
-local_master=`echo $master | ciop-copy -o $TMPDIR/input -`
-base_master=`basename $local_master`
-  
-masterBands="`echo {Amplitude::ENVISAT-,Intensity::ENVISAT-}$base_master`"
   
 # loop through the slave(s) 
 slave_list=""
-$sourceBands=""
+sourceBands=""
+masterBands=""
+
 while read slave
 do
 
   local_slave=`echo $slave | ciop-copy -o $TMPDIR/input -`
   base_slave=`basename $local_slave`
   
-  slave_list="$slave_list $local_slave"
+  slave_list="$slave_list $local_slave.dim"
 
-  if [ "$sourceBands" == "" ]; then 
-    sourceBands="`echo {Amplitude::ENVISAT-,Intensity::ENVISAT-}$base_slave | tr ' ' ','`" 
+  if [ "$masterBands" == "" ]; then
+    masterBands="`echo {Amplitude::ENVISAT-,Intensity::ENVISAT-}$base_slave | tr ' ' ','`"
   else
-    sourceBands="$sourceBands,`echo {Amplitude::ENVISAT-,Intensity::ENVISAT-}$base_slave | tr ' ' ','`"
-  fi
+    if [ "$sourceBands" == "" ]; then 
+      sourceBands="`echo {Amplitude::ENVISAT-,Intensity::ENVISAT-}$base_slave | tr ' ' ','`" 
+    else
+      sourceBands="$sourceBands,`echo {Amplitude::ENVISAT-,Intensity::ENVISAT-}$base_slave | tr ' ' ','`"
+    fi
+  fi 
 
 done
+
+ciop-log "DEBUG" "master: $masterBands"
+ciop-log "DEBUG" "slave: $sourceBands"
+
+ciop-log "INFO" "Create stack"
 
 /application/shared/bin/gpt.sh CreateStack  \
   -Pextent="$extent" \
@@ -88,6 +96,10 @@ done
   -PsourceBands="$sourceBands" \
   -t $TMPDIR/createstack.dim \
   $local_master $slave_list
+
+[ $? != 0 ] && exit $ERR_CREATESTACK
+
+ciop-log "INFO" "GCP-Selection"
 
 /application/shared/bin/gpt.sh GCP-Selection \
   -PapplyFineRegistration="$applyFineRegistration" \
@@ -108,15 +120,21 @@ done
   -t $TMPDIR/gcpselection.dim \
   $TMPDIR/createstack.dim
   
+[ $? != 0 ] && exit $ERR_GCPSELECTION
+
+ciop-log "INFO" "Warp"
 
 /application/shared/bin/gpt.sh Warp \
   -PinterpolationMethod="$interpolationMethod" \
   -PopenResidualsFile="$openResidualsFile" \
   -PrmsThreshold="$rmsThreshold" \
   -PwarpPolynomialOrder="$warpPolynomialOrder" \
-  -t $TMPDIR/coreg.dim        
+  -t $TMPDIR/coreg.dim \
+  $TMPDIR/gcpselection.dim  
 
-tar -C $TMPDIR -f $TMPDIR/coreg.tgz -cz $TMPDIR/coreg.d*
+[ $? != 0 ] && exit $ERR_WARP
+
+tar -C $TMPDIR -czf $TMPDIR/coreg.tgz coreg.dim coreg.data
 
 ciop-publish -m $TMPDIR/coreg.tgz
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="us-ascii"?>
-<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="proc-coreg">
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="NEST-coreg">
   <jobTemplates>
      <jobTemplate id="proc-orbit">
       <streamingExecutable>/application/proc-orbit/run.sh</streamingExecutable>
@@ -41,15 +41,16 @@
       </defaultParameters>
       <defaultJobconf>
         <property id="mapred.task.timeout">9900000000</property>
+        <property id="ciop.job.max.tasks">1</property>
       </defaultJobconf>
     </jobTemplate>
   </jobTemplates>
-  <workflow id="proc-coreg" title="SRTM Digital Elevation Model" abstract="This application generates the STRM DEM in ROI_PAC or GAMMA ready format">
+  <workflow id="NEST-coreg" title="ESA NEST Coregistration" abstract="This application generates a coregistered stack of SAR products">
     <workflowVersion>1.0</workflowVersion>
       <node id="node_proc-orbit">
         <job id="proc-orbit" />
         <sources>
-          <source id="slaves" title="Slave product catalogue entry(ies) in RDF format" abstract="Define the list of one or more slave products to generate the coregistered stack" refid="string:list" scope="runtime">http://sb-10-16-10-38.dev.terradue.int/data/ASA_IMM_1PNPDK20051128_091205_000002002042_00494_19586_9129.N1.gz,http://sb-10-16-10-38.dev.terradue.int/data/ASA_IMM_1PNPDK20051024_091415_000001372041_00494_19085_6940.N1.gz</source>
+          <source id="sar_products" title="SAR product catalogue entry(ies) in RDF format" abstract="Define the list of at least two SAR products to generate the coregistered stack" refid="string:list" scope="runtime">http://sb-10-16-10-38.dev.terradue.int/data/ASA_IMM_1PNPDK20051128_091205_000002002042_00494_19586_9129.N1.gz,http://sb-10-16-10-38.dev.terradue.int/data/ASA_IMM_1PNPDK20051024_091415_000001372041_00494_19085_6940.N1.gz</source>
         </sources>
         <parameters>
         </parameters>

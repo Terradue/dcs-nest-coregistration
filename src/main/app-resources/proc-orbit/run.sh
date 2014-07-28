@@ -47,7 +47,7 @@ do
  
   ciop-log "DEBUG" "`tree $TMPDIR`"
    
-  tar -C $TMPDIR/output -f $TMPDIR/output/${base_input}.tgz -cz  $TMPDIR/output/${base_input}.d*
+  tar -C $TMPDIR/output -czf $TMPDIR/output/${base_input}.tgz ${base_input}.dim ${base_input}.data
   
   ciop-publish $TMPDIR/output/${base_input}.tgz
   
