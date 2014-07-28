@@ -1,4 +1,4 @@
-## Developer Cloud Service NEST Coregistration tutorial - ERS Tandem
+## Developer Cloud Service NEST Coregistration
 
 TODO: add intro
 
@@ -65,7 +65,6 @@ To learn more and find information go to
 
 * [Developer Cloud Sandbox](http://docs.terradue.com/developer) service 
 * [ESA NEST](https://earth.esa.int/web/nest/home)
-* [ERS-1 and ERS-2 Tandem Operations](http://www.esa.int/esapub/bulletin/bullet83/duc83.htm)
 
 ### Authors (alphabetically)
 
