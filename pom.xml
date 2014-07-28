@@ -23,6 +23,7 @@
 		<maven.deploy.skip>true</maven.deploy.skip>
 		<beam.version>5.0</beam.version>
 		<nest.version>5.1</nest.version>
+		<netcdf.version>4.2.20</netcdf.version>
 	</properties>
 
 	<dependencies>
@@ -113,6 +114,18 @@
 			<artifactId>nest-reader-dem</artifactId>
 			<version>${nest.version}</version>
 		</dependency>
+		<dependency>
+		                <groupId>edu.ucar</groupId>
+		                                <artifactId>netcdf</artifactId>
+		                                                <version>${netcdf.version}</version>
+
+		                                                				<exclusions>
+		                                                									<exclusion>
+		                                                															<groupId>org.slf4j</groupId>
+		                                                																					<artifactId>slf4j-api</artifactId>
+		                                                																										</exclusion>
+		                                                																														</exclusions>
+		                                                																														            </dependency>
 	</dependencies>
 
 	<repositories>
@@ -228,6 +241,7 @@
 							<outputAbsoluteArtifactFilename>true</outputAbsoluteArtifactFilename>
 							<stripVersion>true</stripVersion>
 							<outputDirectory>${project.build.directory}/dependency/jars/</outputDirectory>
+							<excludeArtifactIds>slf4j-jdk14</excludeArtifactIds>
 						</configuration>
 					</execution>
 				</executions>

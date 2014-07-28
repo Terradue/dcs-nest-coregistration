@@ -49,7 +49,7 @@
       <node id="node_proc-orbit">
         <job id="proc-orbit" />
         <sources>
-          <source id="slaves" title="Slave product catalogue entry(ies) in RDF format" abstract="Define the list of one or more slave products to generate the coregistered stack" refid="string:list" scope="runtime">http://sb-10-16-10-38.dev.terradue.int/data/ASA_IMM_1PNPDK20051128_091205_000002002042_00494_19586_9129.N1.gz</source>
+          <source id="slaves" title="Slave product catalogue entry(ies) in RDF format" abstract="Define the list of one or more slave products to generate the coregistered stack" refid="string:list" scope="runtime">http://sb-10-16-10-38.dev.terradue.int/data/ASA_IMM_1PNPDK20051128_091205_000002002042_00494_19586_9129.N1.gz,http://sb-10-16-10-38.dev.terradue.int/data/ASA_IMM_1PNPDK20051024_091415_000001372041_00494_19085_6940.N1.gz</source>
         </sources>
         <parameters>
         </parameters>
@@ -57,7 +57,7 @@
       <node id="node_proc-coreg">
       <job id="proc-coreg" />
       <sources>
-        <source id="slaves" title="Slave product catalogue entry(ies) in RDF format" abstract="Define the list of one or more slave products to generate the coregistered stack" refid="string:list" scope="runtime">http://eo-virtual-archive4.esa.int/search/ASA_IM__0P/ASA_IM__0CNPAM20100818_204734_000000172092_00129_44271_5241.N1/rdf</source>
+      <source refid="wf:node">node_proc-orbit</source>
       </sources>
       <parameters>
       </parameters>

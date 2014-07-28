@@ -20,8 +20,7 @@ $app_java_home/bin/java \
     -Dceres.context=nest \
     "-Dnest.mainClass=org.esa.beam.framework.gpf.main.Main" \
     "-Dnest.home=$NEST_HOME" \
-	-Dnest.application_tmp_folder=$TMPDIR \
-	"-Dncsa.hdf.hdflib.HDFLibrary.hdflib=$NEST_HOME/lib/libjhdf.so" \
+    "-Dncsa.hdf.hdflib.HDFLibrary.hdflib=$NEST_HOME/lib/libjhdf.so" \
     "-Dncsa.hdf.hdf5lib.H5.hdf5lib=$NEST_HOME/lib/libjhdf5.so" \
     -jar $NEST_HOME/lib/ceres-launcher.jar "$@"
 

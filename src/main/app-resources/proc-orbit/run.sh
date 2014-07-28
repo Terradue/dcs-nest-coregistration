@@ -31,6 +31,7 @@ mkdir -p $TMPDIR/output
 # loop through the inputs
 while read input
 do
+  mkdir -p $TMPDIR/output
 
   local_input=`echo $input | ciop-copy -o $TMPDIR -`
   base_input=`basename $local_input | sed "s/.N1//"`
@@ -46,9 +47,10 @@ do
  
   ciop-log "DEBUG" "`tree $TMPDIR`"
    
-  tar -C $TMPDIR/output -f ${base_input}.tgz -cz  ${base_input}.d*
+  tar -C $TMPDIR/output -f $TMPDIR/output/${base_input}.tgz -cz  $TMPDIR/output/${base_input}.d*
   
   ciop-publish $TMPDIR/output/${base_input}.tgz
   
   rm -f $local_input
+  rm -fr $TMPDIR/output
 done

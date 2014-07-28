@@ -82,7 +82,7 @@ do
 done
 
 /application/shared/bin/gpt.sh CreateStack  \
-  -Pextent=$extent \
+  -Pextent="$extent" \
   -PresamplingType=$resamplingType \
   -PmasterBands=$masterBands \
   -PsourceBands=$sourceBands \
